@@ -1,12 +1,29 @@
+/**
+ * Vector class to store point information, and calculate its projection on the screen
+ * Might add methods for rotation and translation
+ */
 class Vect{
+  /**
+   * Do i need to describe what it is
+   * @param {int} x 
+   * @param {int} y 
+   * @param {int} z 
+   */
   constructor(x, y, z) {
     this.x = x;
     this.y = y;
     this.z = z;
   }
 
+  /**
+   * 
+   * @param {int} d projection plane z = d  
+   * @param {int} fov field of view of the camera 
+   * @param {int} h screen height in pixel 
+   * @param {int} w screen widht in pixel 
+   * @returns 
+   */
   project(d,fov,h,w) {
-
     // unit projection onto the plane z=d
     let xf = (d*this.x) / this.z; 
     // to pixel convetion
@@ -25,7 +42,16 @@ class Vect{
   }
 }
 
+/**
+ * A simple cube class
+ * and methods to drawn it on the screen
+ */
 class Cube{
+  /**
+   * 
+   * @param {Vect} center Postion of the cube center
+   * @param {int} r Radius of the cube, each edge will be equal to 2 times r
+   */
   constructor(center,r){
     this.center = center;
     this.r = r;
@@ -99,10 +125,14 @@ function setup() {
 }
 
 function draw() {
+  // reset the screen
   background(25);
+  // change cube proprety
   myCube.r += rate;
   if (myCube.r > 1.5 || myCube.r < 0.5 ) rate *= -1;
+  // recalculate it's point
   myCube.cubeInit();
+  // draw the cube
   myCube.draw();
   stroke('purple'); // Change the color
 }
