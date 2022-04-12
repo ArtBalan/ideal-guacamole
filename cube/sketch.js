@@ -188,9 +188,9 @@ class Cube extends Item {
     // Diagonals
     if (this.diag)
       junctionList.push([3, 1], [1, 6], [6, 4], [4, 3], [3, 6], [4, 1]);
-    // Index printing
+      junctionList.forEach((e) => { line( projectedList[e[0]].x, projectedList[e[0]].y, projectedList[e[1]].x, projectedList[e[1]].y );});
+      // Index printing
     // for (let i = 0; i < projectedList.length; i++) { text(i,projectedList[i].x,projectedList[i].y); }
-    junctionList.forEach((e) => { line( projectedList[e[0]].x, projectedList[e[0]].y, projectedList[e[1]].x, projectedList[e[1]].y );});
   }
 }
 
@@ -248,9 +248,9 @@ class Sphere extends Item {
       if (i < projectedList.length - this.segment) {
         line( projectedList[i].x, projectedList[i].y, projectedList[i + this.segment].x, projectedList[i + this.segment].y );
       }
+      line( projectedList[i].x, projectedList[i].y, projectedList[i + 1].x, projectedList[i + 1].y );
       // Index printing
       // text(i,projectedList[i].x,projectedList[i].y);
-      line( projectedList[i].x, projectedList[i].y, projectedList[i + 1].x, projectedList[i + 1].y );
     }
   }
 }
