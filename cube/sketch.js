@@ -409,10 +409,10 @@ let HEIGHT = 550;
 let d = 2;
 let fov = 10;
 
-let myCube = new Cube(new Vect(0, 0, 10), 1.5, "blue", false);
-let mySphere = new Sphere(new Vect(0, 0, 10), 2.5, 20, "purple");
-let myCylinder = new Cylinder(new Vect(0,0,10), 1, 8, 1, 4, "green");
-let myCone = new Cone(new Vect(0,0,10), 1.4, 5, 1.2, 5,"red");
+// let myCube = new Cube(new Vect(0, 0, 10), 1.5, "blue", false);
+let mySphere = new Sphere(new Vect(0, 0, 10), 2.5, 20, "red");
+// let myCylinder = new Cylinder(new Vect(0,0,10), 1, 8, 1, 4, "green");
+// let myCone = new Cone(new Vect(0,0,10), 1.4, 5, 1.2, 5,"purple");
 
 function setup() {
   createCanvas(WIDTH, HEIGHT);
@@ -438,14 +438,14 @@ function draw() {
   // myCone.scaleItem(new Vect(0.999,0.999,0.999), myCone.center);
 
 
-  myCube.rotateItem( new Vect(0.005, 0.005, 0.005), myCube.center );
+  // myCube.rotateItem( new Vect(0.005, 0.005, 0.005), myCube.center );
   mySphere.rotateItem( new Vect(0.005, 0.005, 0.005), mySphere.center );
-  myCylinder.rotateItem( new Vect(0.005, 0.005, 0.005), myCylinder.center );
-  myCone.rotateItem( new Vect(0.005, 0.005, 0.005), myCone.center );
+  // myCylinder.rotateItem( new Vect(0.005, 0.005, 0.005), myCylinder.center );
+  // myCone.rotateItem( new Vect(0.005, 0.005, 0.005), myCone.center );
 
-  strokeWeight(2);
-  myCube.draw();
+  strokeWeight(1);
+  // myCube.draw();
   mySphere.draw();
-  myCylinder.draw();
-  myCone.draw();
+  // myCylinder.draw();
+  // myCone.draw();
 }
