@@ -1,3 +1,4 @@
+
 /**
  * Simple vector class with basic functionnality
  */
@@ -144,10 +145,11 @@ class Cube extends Item {
    * @param {color} color of the cube
    * @param {bool} diag if the diagonal lines are displayed
    */
-  constructor(center, r, color, diag) {
+  constructor(center, r, color, strokeW, diag) {
     super(center, r, color);
     this.cubeInit();
     this.diag = diag;
+    this.strokeW = strokeW;
   }
   /**
    * Initialise the point of the cube
@@ -168,6 +170,7 @@ class Cube extends Item {
    * Draw the cube
    */
   draw() {
+    strokeWeight(this.strokeW);
     stroke(this.color);
     let projectedList = [];
     this.vectList.forEach((e) => projectedList.push(e.projectPoint(d, fov)));
@@ -205,10 +208,11 @@ class Sphere extends Item {
    * @param {int} segment number of rings
    * @param {string} color of the sphere
    */
-  constructor(center, r, segment, color) {
+  constructor(center, r, segment, color, strokeW) {
     super(center, r, color);
     this.segment = segment;
     this.sphereInit();
+    this.strokeW = strokeW;
   }
   /**
    * Create a circle of radius this.r
@@ -239,6 +243,7 @@ class Sphere extends Item {
    */
   draw() {
     stroke(this.color);
+    strokeWeight(this.strokeW)
     let projectedList = [];
     this.vectList.forEach((e) => projectedList.push(e.projectPoint(d, fov)));
     for (let i = 0; i < projectedList.length - 1; i++) {
@@ -268,11 +273,12 @@ class Cylinder extends Item {
    * @param {*} hSegment number of rings
    * @param {*} color of the cylinder
    */
-  constructor(center, r, segment, height, hSegment, color) {
+  constructor(center, r, segment, height, hSegment, color, strokeW) {
     super(center, r, color);
     this.height = height;
     this.segment = segment;
     this.hSegment = hSegment;
+    this.strokeW = strokeW;
     this.cylinderInit();
   }
   /**
@@ -306,6 +312,7 @@ class Cylinder extends Item {
    * Draw the cylinder
    */
   draw() {
+    strokeWeight(this.strokeW);
     stroke(this.color);
     let projectedList = [];
     this.vectList.forEach((e) => projectedList.push(e.projectPoint(d, fov)));
@@ -340,11 +347,12 @@ class Cone extends Item {
    * @param {int} hSegment number of rings
    * @param {*} color of the cone
    */
-  constructor(center, r, segment, height, hSegment, color) {
+  constructor(center, r, segment, height, hSegment, color, strokeW) {
     super(center, r, color);
     this.height = height;
     this.segment = segment;
     this.hSegment = hSegment;
+    this.strokeW = strokeW;
     this.coneInit();
   }
   /**
@@ -382,6 +390,7 @@ class Cone extends Item {
    * Draw the cone
    */
   draw() {
+    strokeWeight(this.strokeW);
     stroke(this.color);
     let projectedList = [];
     this.vectList.forEach((e) => projectedList.push(e.projectPoint(d, fov)));
@@ -403,16 +412,21 @@ class Cone extends Item {
   }
 }
 
-let WIDTH = 550;
-let HEIGHT = 550;
+let WIDTH = 900;
+let HEIGHT = 900;
 
 let d = 2;
-let fov = 10;
+let fov = 360;
 
-// let myCube = new Cube(new Vect(0, 0, 10), 1.5, "blue", false);
-let mySphere = new Sphere(new Vect(0, 0, 10), 2.5, 20, "red");
-// let myCylinder = new Cylinder(new Vect(0,0,10), 1, 8, 1, 4, "green");
-// let myCone = new Cone(new Vect(0,0,10), 1.4, 5, 1.2, 5,"purple");
+let fillColor;
+let newColor;
+let shiftamt = 0.01;
+
+
+let myCube = new Cube(new Vect(0, 0, 10), 5, "orange", 4,false);
+let mySphere = new Sphere(new Vect(0, 0, 1), 0.99999, 40, "red",2.5);
+let myCylinder = new Cylinder(new Vect(0,0,10), 7, 16, 6, 4, "red",3);
+let myCone = new Cone(new Vect(0,0,11), 7, 20, 7, 5,"green",3);
 
 function setup() {
   createCanvas(WIDTH, HEIGHT);
@@ -420,9 +434,19 @@ function setup() {
   fill("red");
   stroke("purple"); // Change the color
   strokeWeight(2);
-}
 
+  fillColor = color(255, 204, 0);
+  newColor = color(random(255), random(255), random(255));
+  // idk why i need this
+  colorMode(RGB);
+
+  // color shift start at 0
+  amt = 0;
+}
+tempDuration = moment();
 function draw() {
+  const startDate = moment();
+
   // Reset the screen
   background(25);
 
@@ -433,19 +457,30 @@ function draw() {
 
   
   // myCube.scaleItem(new Vect(0.999,0.999,0.999), myCube.center);
-  // mySphere.scaleItem(new Vect(0.999,0.999,0.999), mySphere.center);
+  // mySphere.scaleItem(new Vect(0.9995,0.9995,0.9995), mySphere.center);
   // myCylinder.scaleItem(new Vect(0.999,0.999,0.999), myCylinder.center);
   // myCone.scaleItem(new Vect(0.999,0.999,0.999), myCone.center);
 
 
   // myCube.rotateItem( new Vect(0.005, 0.005, 0.005), myCube.center );
-  mySphere.rotateItem( new Vect(0.005, 0.005, 0.005), mySphere.center );
-  // myCylinder.rotateItem( new Vect(0.005, 0.005, 0.005), myCylinder.center );
+  mySphere.rotateItem( new Vect(0.009, 0.009, 0.00), mySphere.center );
+  // myCylinder.rotateItem( new Vect(-0.005, -0.005, -0.005), myCylinder.center );
   // myCone.rotateItem( new Vect(0.005, 0.005, 0.005), myCone.center );
 
-  strokeWeight(1);
   // myCube.draw();
-  mySphere.draw();
   // myCylinder.draw();
+  mySphere.draw();
   // myCone.draw();
+  
+  tempColor = lerpColor(fillColor, newColor, amt);
+  amt += shiftamt;
+  if (amt >= 1) {
+    amt = 0.0;
+    fillColor = newColor;
+    newColor = color(random(255), random(255), random(255));
+  }
+  mySphere.color = tempColor;
+
+  elapsedDuration = moment.duration(moment().diff(startDate));
+  // console.log(elapsedDuration.asMilliseconds());
 }
