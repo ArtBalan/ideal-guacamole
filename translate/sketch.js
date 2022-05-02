@@ -1,10 +1,11 @@
 let width = 0;
 let height = 0;
 
-let minusX = -5;
-let posX = 5;
-let minusY = -5;
-let posY = 5;
+let minusX = -10;
+let posX = 10;
+let minusY = -10;
+let posY = 10;
+
 
 function setup() {
   // max canvas size
@@ -18,16 +19,53 @@ function setup() {
   stroke(fillColor);
   strokeWeight(5);
 
+
+
 }
 
-function draw() {
-  let startingPoint = new Point(-2,-2);
-  let endingPoint = new Point(2,2);
-  startingPoint.draw();
-  endingPoint.draw();
+let shift = 0;
+let secondShif = -50;
+let myLine;
 
-  let myLine = new Line(-2,-2,2,2);
-  myLine.draw();
+
+
+
+function draw() {
+  background(25);
+  let lineList = [];
+  for(let i=-5; i<=5; i++){
+    if(i!= 0) lineList.push(new Line(secondShif,i*2,-i*1.5,i*1.5));
+  }
+
+  lineList.forEach(e => {
+    e.draw();
+    e.drawPoint(shift);
+  });
+
+  if(shift<=1){
+    shift += 0.001;
+
+  } else {
+    shift = 0
+  }
+
+  if(secondShif<=50){
+    secondShif += 0.5;
+  } else {
+    secondShif = -50;
+  }
+
+
+
+}
+
+function pointify(){
+  for(let i = minusX; i<posX; i++){
+    for(let j = minusY; j<posY; j++){
+      let tempPoint = new Point(i,j);
+      tempPoint.draw();
+    }
+  }
 }
 
 class Point{
@@ -41,43 +79,74 @@ class Point{
   calculateRealCord(){
     let deltaX = posX - minusX;
     let deltaY = posY - minusY;
-    this.realX = (( width / deltaX )*this.x + width/2);
-    this.realY = (( height / deltaY )*this.y + height/2);
+    this.realX = (( width  / deltaX ) * this.x + width  / 2 );
+    this.realY = (( height / deltaY ) * this.y + height / 2 );
   }
   draw(){
-    stroke("blue");
-    strokeWeight(4);
+    if(this.x == 0 && this.y == 0){
+      stroke("green");
+      strokeWeight(10);
+    } else {
+      stroke("blue");
+      strokeWeight(4);  
+    }
     point(this.realX, this.realY);
   }
 }
 
 class Line{
-  constructor(xs,ys,xe,ye){
-    this.startingPoint = new Point(xs,ys);
-    this.endingPoint = new Point(xe,ye);
+  constructor(a,b,x1,x2,ext) {
+    this.a = a;
+    this.b = b;
+    this.x1 = x1;
+    this.x2 = x2;
+    this.ext = (ext == undefined)? true : false;
   }
+
   draw(){
+    this.startingPoint = new Point(this.x1, (this.a * this.x1 + this.b));
+    this.endingPoint   = new Point(this.x2, (this.a * this.x2 + this.b));
     this.startingPoint.calculateRealCord();
     this.endingPoint.calculateRealCord();
     stroke("red");
-    strokeWeight("1");
+    strokeWeight(3);
     line(this.startingPoint.realX,this.startingPoint.realY,this.endingPoint.realX,this.endingPoint.realY);
-    this.extention();
+    if(this.ext){
+      // this.extention();
+    }
   }
 
   extention(){
+    let a1 = -1/this.a;
+    let b1 = this.startingPoint.y + (1/this.a)*this.x1;
+    let startingExtention = new Line(a1,b1,this.x1-0.2,this.x1+0.2,false);
+    startingExtention.draw();
 
-    let tempX = cos(Math.PI/2)*this.endingPoint.x - sin(Math.PI/2)*this.endingPoint.y +this.startingPoint.x;
-    let tempY = sin(Math.PI/2)*this.endingPoint.x + cos(Math.PI/2)*this.endingPoint.y + this.startingPoint.y;
-    let norm = Math.sqrt((this.startingPoint.x - tempX)**2 + (this.startingPoint.y -tempY)**2);
-    tempX /= norm;
-    tempY /= norm;
-    let tempPoint = new Point(tempX,tempY);
-    line(tempPoint.realX,tempPoint.realY,this.startingPoint.realX,this.startingPoint.realY);
+    let b2 = this.endingPoint.y + (1/this.a)*this.x2;
+    let endingExtention = new Line(a1,b2,this.x2-0.2,this.x2+0.2,false);
+    endingExtention.draw();
   }
+
+  drawPoint(factor){
+
+    if(factor <= 1 && factor >= 0){
+    
+      let len = caldist(this.startingPoint,this.endingPoint);
+      let deltaX = (this.endingPoint.x - this.startingPoint.x);
+      
+      strokeWeight(50);
+      stroke("blue")
+      
+      let tempPoint = new Point(this.startingPoint.x + (deltaX*factor), this.a*(this.startingPoint.x + (deltaX*factor))+this.b);
+      
+      tempPoint.calculateRealCord();
+      point(tempPoint.realX,tempPoint.realY);
+    
+    }
+
+  }
+
 }
-
-
 
 function caldist(a, b) {
   // pythagore goes brrr
