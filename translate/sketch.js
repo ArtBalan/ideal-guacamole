@@ -26,9 +26,7 @@ function setup() {
 let shift = 0;
 let secondShif = -50;
 let myLine;
-
-
-
+let ascende = true;
 
 function draw() {
   background(25);
@@ -39,14 +37,13 @@ function draw() {
 
   lineList.forEach(e => {
     e.draw();
-    e.drawPoint(shift);
+    e.drawPoint(shift,"yellow",20);
   });
 
-  if(shift<=1){
+  if(ascende && shift<=1){
     shift += 0.001;
-
   } else {
-    shift = 0
+    ascende = false;
   }
 
   if(secondShif<=50){
@@ -127,15 +124,15 @@ class Line{
     endingExtention.draw();
   }
 
-  drawPoint(factor){
+  drawPoint(factor,color,weihgt){
 
     if(factor <= 1 && factor >= 0){
     
       let len = caldist(this.startingPoint,this.endingPoint);
       let deltaX = (this.endingPoint.x - this.startingPoint.x);
       
-      strokeWeight(50);
-      stroke("blue")
+      strokeWeight(weihgt);
+      stroke(color);
       
       let tempPoint = new Point(this.startingPoint.x + (deltaX*factor), this.a*(this.startingPoint.x + (deltaX*factor))+this.b);
       
