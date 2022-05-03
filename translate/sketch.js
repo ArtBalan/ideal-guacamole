@@ -1,10 +1,10 @@
 let width = 0;
 let height = 0;
 
-let minusX = -10;
-let posX = 10;
-let minusY = -10;
-let posY = 10;
+let minusX = -25;
+let posX = 25;
+let minusY = -25;
+let posY = 25;
 
 
 function setup() {
@@ -24,35 +24,50 @@ function setup() {
 }
 
 let shift = 0;
-let secondShif = -50;
+let secondShif = -1;
 let myLine;
+
+let rotateSpeed = 0.02;
+let roateDelta = 1.9;
+
+
 let ascende = true;
+let rotate = true;
 
 function draw() {
   background(25);
   let lineList = [];
-  for(let i=-5; i<=5; i++){
-    if(i!= 0) lineList.push(new Line(secondShif,i*2,-i*1.5,i*1.5));
+  for(let i=-20; i<=20; i+=0.5){
+    if(i!= 0) lineList.push(new Line(secondShif,i*3,-i*1.5,i*1.5));
+    if(i!= 0) lineList.push(new Line(-secondShif,i*3,-i*1.5,i*1.5));
   }
 
   lineList.forEach(e => {
-    e.draw();
-    e.drawPoint(shift,"yellow",20);
+    e.draw("yellow",2);
+    // e.drawPoint(shift,"yellow",20);
   });
 
   if(ascende && shift<=1){
-    shift += 0.001;
+    shift += 0.003;
   } else {
     ascende = false;
   }
-
-  if(secondShif<=50){
-    secondShif += 0.5;
+  if( !ascende && shift >= 0){
+    shift -= 0.003;
   } else {
-    secondShif = -50;
+    ascende = true;
   }
 
-
+  if( rotate && secondShif <= roateDelta){
+    secondShif += rotateSpeed;
+  } else {
+    rotate = false;
+  }
+  if( !rotate && secondShif >= -roateDelta){
+    secondShif -= rotateSpeed;
+  } else {
+    rotate = true;
+  }
 
 }
 
@@ -100,13 +115,13 @@ class Line{
     this.ext = (ext == undefined)? true : false;
   }
 
-  draw(){
+  draw(color,width){
     this.startingPoint = new Point(this.x1, (this.a * this.x1 + this.b));
     this.endingPoint   = new Point(this.x2, (this.a * this.x2 + this.b));
     this.startingPoint.calculateRealCord();
     this.endingPoint.calculateRealCord();
-    stroke("red");
-    strokeWeight(3);
+    stroke(color);
+    strokeWeight(width);
     line(this.startingPoint.realX,this.startingPoint.realY,this.endingPoint.realX,this.endingPoint.realY);
     if(this.ext){
       // this.extention();
@@ -117,11 +132,11 @@ class Line{
     let a1 = -1/this.a;
     let b1 = this.startingPoint.y + (1/this.a)*this.x1;
     let startingExtention = new Line(a1,b1,this.x1-0.2,this.x1+0.2,false);
-    startingExtention.draw();
+    startingExtention.draw("blue",3);
 
     let b2 = this.endingPoint.y + (1/this.a)*this.x2;
     let endingExtention = new Line(a1,b2,this.x2-0.2,this.x2+0.2,false);
-    endingExtention.draw();
+    endingExtention.draw("blue",3);
   }
 
   drawPoint(factor,color,weihgt){
