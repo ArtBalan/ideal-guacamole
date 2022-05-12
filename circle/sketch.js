@@ -7,12 +7,12 @@ let nbrOfPoint = 10;
 // if the circle can overflow
 let overflow = false;
 // distance between point
-let distance = 3;
+let distance = 5;
 
 // how much the ring decrease
-let decrease = 12;
+let decrease = 18;
 // stroke weight
-let strokeWidth = 0.8;
+let strokeWidth = 1;
 // how much times we redraw the circles
 let steps = 10000;
 let keepGoing = true;
@@ -31,11 +31,18 @@ let amt;
 let shiftamt = 1 / steps;
 shiftamt = 0.005;
 
+let p5Canvas;
+
+let record = false;
+let nbrOfFrames = 240;
+let elapsedFrames = 0;
+
+
 function setup() {
   // max canvas size
   width = windowWidth - 2;
   height = windowHeight - 2;
-  createCanvas(width, height);
+  p5Canvas = createCanvas(width, height);
   background(25);
 
   fillColor = color(255, 204, 0, alphaValue);
@@ -49,25 +56,28 @@ function setup() {
 }
 
 function draw() {
-  // if there is no point that can shrink and more steps to go
   if ( steps > 0) {
-    // regenerate points
     steps -= 1;
-    // color shift
     tempColor = lerpColor(fillColor, newColor, amt);
-    // fill(lerpColor(fillColor, newColor, amt));
-    // MaThS could be also done on the stroke but me lazy 
+    fill(tempColor)
     stroke(strokeColor);
-    // same for it's weight
     strokeWeight(strokeWidth);
-    
     amt += shiftamt;
+
     if (amt >= 1) {
       amt = 0.0;
-      startColor = newColor;
+      fillColor = tempColor;
       newColor = color(random(255), random(255), random(255),200);
+    
     }
     cicleEveryWhere(points);
+  }
+
+  
+  if( record && elapsedFrames <= nbrOfFrames ){
+    let name = 'circle' + elapsedFrames.toString;
+    saveCanvas(p5Canvas, 'cicle' + elapsedFrames);
+    elapsedFrames += 1;
   }
 
 }
@@ -105,17 +115,18 @@ function generate() {
 
   let centerPoint = {"x":windowWidth/2,"y":windowHeight/2};
   points = points.filter(e => (
-     isInCircle(e,centerPoint,200)
-     || isInTorus(e,centerPoint,490,400)
-     || isInTorus(e,centerPoint,640,550)
-     || isInTorus(e,centerPoint,790,700)
+    true
+    //  isInCircle(e,centerPoint,200)
+      // isInTorus(e,centerPoint,650,550)
+    //  || isInTorus(e,centerPoint,640,550)
+    //  || isInTorus(e,centerPoint,790,700)
     // isInRectangle(e,450,20)
     // isInRectangle(e,20,900)
   ));
   return points;
 }
 
-async function cicleEveryWhere() {
+function cicleEveryWhere() {
   let keepGoing = true;
   let points = generate();
     // if there is still point that can shrink

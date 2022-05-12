@@ -424,12 +424,18 @@ let shiftamt = 0.01;
 
 
 let myCube = new Cube(new Vect(0, 0, 10), 5, "orange", 4,false);
-let mySphere = new Sphere(new Vect(0, 0, 1), 0.99999, 40, "red",2.5);
-let myCylinder = new Cylinder(new Vect(0,0,10), 7, 16, 6, 4, "red",3);
-let myCone = new Cone(new Vect(0,0,11), 7, 20, 7, 5,"green",3);
+let mySphere = new Sphere(new Vect(0, 0, 1), 0.9998, 4, "red",2.5);
+let myCylinder = new Cylinder(new Vect(0,0,10), 7, 20, 7, 20, "red",3);
+let myCone = new Cone(new Vect(0,0,11), 7, 40, 7, 20,"green",3);
+
+let p5Canvas;
+
+let record = false;
+let nbrOfFrames = 240;
+let elapsedFrames = 0;
 
 function setup() {
-  createCanvas(WIDTH, HEIGHT);
+  p5Canvas = createCanvas(WIDTH, HEIGHT);
   background(25);
   fill("red");
   stroke("purple"); // Change the color
@@ -463,7 +469,7 @@ function draw() {
 
 
   // myCube.rotateItem( new Vect(0.005, 0.005, 0.005), myCube.center );
-  mySphere.rotateItem( new Vect(0.009, 0.009, 0.00), mySphere.center );
+  mySphere.rotateItem( new Vect(0.006, 0.006, 0.00), mySphere.center );
   // myCylinder.rotateItem( new Vect(-0.005, -0.005, -0.005), myCylinder.center );
   // myCone.rotateItem( new Vect(0.005, 0.005, 0.005), myCone.center );
 
@@ -483,4 +489,11 @@ function draw() {
 
   elapsedDuration = moment.duration(moment().diff(startDate));
   // console.log(elapsedDuration.asMilliseconds());
+
+  if( record && elapsedFrames <= nbrOfFrames ){
+    let name = 'test' + elapsedFrames.toString;
+    saveCanvas(p5Canvas, 'test' + elapsedFrames);
+    elapsedFrames += 1;
+  }
+
 }
