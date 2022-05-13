@@ -18,7 +18,7 @@ function setup() {
   strokeColor = color(25, 157, 255,150);
   stroke(fillColor);
   strokeWeight(5);
-
+  frameRate(60)
 
 
 }

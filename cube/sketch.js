@@ -424,7 +424,7 @@ let shiftamt = 0.01;
 
 
 let myCube = new Cube(new Vect(0, 0, 10), 5, "orange", 4,false);
-let mySphere = new Sphere(new Vect(0, 0, 1), 0.9998, 4, "red",2.5);
+let mySphere = new Sphere(new Vect(0, 0, 1), 0.9998, 50, "red",2.5);
 let myCylinder = new Cylinder(new Vect(0,0,10), 7, 20, 7, 20, "red",3);
 let myCone = new Cone(new Vect(0,0,11), 7, 40, 7, 20,"green",3);
 
@@ -448,8 +448,11 @@ function setup() {
 
   // color shift start at 0
   amt = 0;
+  frameRate(24)
 }
+
 tempDuration = moment();
+
 function draw() {
   const startDate = moment();
 
