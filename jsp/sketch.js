@@ -42,7 +42,7 @@ function setup() {
   height = 900;
   createCanvas(width, height);
   background(255);
-  frameRate(8)
+  frameRate(80)
   fillColor = color(255, 204, 0);
   newColor = color(random(255), random(255), random(255));
   // idk why i need this
