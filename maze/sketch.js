@@ -1,6 +1,6 @@
 let screenObject = {
-  width: 900,
-  height: 900,
+  width: 600,
+  height: 600,
   cellX: 10 * 3,
   cellY: 10 * 3
 }
@@ -19,7 +19,6 @@ class Paterne{
 }
 
 class Cell{
-  picked;
   constructor(x,y,paterneList){
     this.x = x;
     this.y = y;
@@ -66,61 +65,79 @@ function setup() {
       if(paterneList[src].list[3] == 1){
         if(paterneList[dst].list[5] == 1) paterneList[src].neighboorList[1].push(dst);
       }
-      // right neighboor
-      if(paterneList[src].list[5] == 1){
-        if(paterneList[dst].list[3] == 1) paterneList[src].neighboorList[2].push(dst);
-      }
       // bottom neighboor
       if(paterneList[src].list[7] == 1){
-        if(paterneList[dst].list[1] == 1) paterneList[src].neighboorList[3].push(dst);
+        if(paterneList[dst].list[1] == 1) paterneList[src].neighboorList[2].push(dst);
       }
+      // right neighboor
+      if(paterneList[src].list[5] == 1){
+        if(paterneList[dst].list[3] == 1) paterneList[src].neighboorList[3].push(dst);
+      }
+
     }
   }
 
-  // table initialisation
-  for(let i=0; i<screenObject.cellX; i+=3){
-    for(let j=0; j<screenObject.cellY; j+=3){
-      let tempCell = new Cell(i,j,paterneList);
-      cellList.push(tempCell);
-    }
-  }
+  // // table initialisation
+  // for(let i=0; i<screenObject.cellX; i+=3){
+  //   for(let j=0; j<screenObject.cellY; j+=3){
+  //     let tempCell = new Cell(i,j,paterneList);
+  //     cellList.push(tempCell);
+  //   }
+  // }
+
 
   createCanvas(screenObject.width,screenObject.height);
   background(0);
 
-  let startCellIndex = getRandomInt(cellList.length);
-  let startCellPaterneIndex = getRandomInt(cellList[startCellIndex].paterneList.length);
 
-  cellList[startCellIndex].pickCell(14);
+  let myTable = [];
+  let xStart = getRandomInt(screenObject.cellX/3);
+  let yStart = getRandomInt(screenObject.cellY/3);
 
-  let topNeighboorIndex = startCellIndex -  1 ; 
-  let bottomNeighboorIndex = startCellIndex +  1 ; 
-  let rightNeighboorIndex = startCellIndex + screenObject.cellY/3;
-  let leftNeighboorIndex = startCellIndex - screenObject.cellY/3;
-
-  cleanNeighboor(cellList[startCellIndex], cellList[topNeighboorIndex], 0);
-  cleanNeighboor(cellList[startCellIndex], cellList[bottomNeighboorIndex], 2);
-  cleanNeighboor(cellList[startCellIndex], cellList[rightNeighboorIndex], 3);
-  cleanNeighboor(cellList[startCellIndex], cellList[leftNeighboorIndex], 1);
-
-  let newCellIndex = getRandomInt(cellList[topNeighboorIndex].paterneList.length);
-  cellList[topNeighboorIndex].pickCell(cellList[topNeighboorIndex].paterneList[newCellIndex]);
-
-  newCellIndex = getRandomInt(cellList[bottomNeighboorIndex].paterneList.length);
-  cellList[bottomNeighboorIndex].pickCell(cellList[bottomNeighboorIndex].paterneList[newCellIndex]);
-
-  newCellIndex = getRandomInt(cellList[rightNeighboorIndex].paterneList.length);
-  cellList[rightNeighboorIndex].pickCell(cellList[rightNeighboorIndex].paterneList[newCellIndex]);
-
-  newCellIndex = getRandomInt(cellList[leftNeighboorIndex].paterneList.length);
-  cellList[leftNeighboorIndex].pickCell(cellList[leftNeighboorIndex].paterneList[newCellIndex]);
+  let startCell = new Cell(xStart,yStart,paterneList);
+  let startCellPaterneIndex = getRandomInt(startCell.paterneList.length);
+  startCell.pickCell(startCellPaterneIndex);
+  myTable.push(startCell);
 
 
-  drawCell(cellList[startCellIndex],screenObject);
-  drawCell(cellList[topNeighboorIndex],screenObject);
-  drawCell(cellList[bottomNeighboorIndex],screenObject);
-  drawCell(cellList[leftNeighboorIndex],screenObject);
-  drawCell(cellList[rightNeighboorIndex],screenObject);
+
+  myTable.forEach( e => drawCell(e,screenObject));
+
+  // let startCellIndex = getRandomInt(cellList.length);
+  // let startCellPaterneIndex = getRandomInt(cellList[startCellIndex].paterneList.length);
+
+  // cellList[startCellIndex].pickCell(14);
+
+  // let topNeighboorIndex = startCellIndex -  1 ; 
+  // let bottomNeighboorIndex = startCellIndex +  1 ; 
+  // let rightNeighboorIndex = startCellIndex + screenObject.cellY/3;
+  // let leftNeighboorIndex = startCellIndex - screenObject.cellY/3;
+
+  // cleanNeighboor(cellList[startCellIndex], cellList[topNeighboorIndex], 0);
+  // cleanNeighboor(cellList[startCellIndex], cellList[bottomNeighboorIndex], 2);
+  // cleanNeighboor(cellList[startCellIndex], cellList[rightNeighboorIndex], 3);
+  // cleanNeighboor(cellList[startCellIndex], cellList[leftNeighboorIndex], 1);
+
+  // // randome index pour la cell choisi pour le top neighboor
+  // let newCellIndex = getRandomInt(cellList[topNeighboorIndex].paterneList.length);
+  // // on pick la cell pour le top neigboor
+  // cellList[topNeighboorIndex].pickCell(cellList[topNeighboorIndex].paterneList[newCellIndex]);
+
+  // newCellIndex = getRandomInt(cellList[bottomNeighboorIndex].paterneList.length);
+  // cellList[bottomNeighboorIndex].pickCell(cellList[bottomNeighboorIndex].paterneList[newCellIndex]);
+
+  // newCellIndex = getRandomInt(cellList[rightNeighboorIndex].paterneList.length);
+  // cellList[rightNeighboorIndex].pickCell(cellList[rightNeighboorIndex].paterneList[newCellIndex]);
+
+  // newCellIndex = getRandomInt(cellList[leftNeighboorIndex].paterneList.length);
+  // cellList[leftNeighboorIndex].pickCell(cellList[leftNeighboorIndex].paterneList[newCellIndex]);
+
+
+  // drawCell(cellList[startCellIndex],screenObject);
+  // drawCell(cellList[topNeighboorIndex],screenObject);
+  // drawCell(cellList[bottomNeighboorIndex],screenObject);
+  // drawCell(cellList[leftNeighboorIndex],screenObject);
+  // drawCell(cellList[rightNeighboorIndex],screenObject);
 
 }
 
@@ -128,13 +145,14 @@ function draw() {
 
 }
 
-
 function cleanNeighboor(cellSrc, cellDst, direction){
   
+  // si cell source est picked et cell dest ne l'est pas
   if(cellSrc.isPicked && !cellDst.isPicked){
-  
-  
+
+      // on recupère la liste des neigboor autorisé
       let autorisedNeighboor = cellSrc.paterneList.neighboorList[direction];
+      // on créer une lite des cell qui seront autorisé
       var tempNewNeighbootList = [];
   
       for(let i=0; i< autorisedNeighboor.length; i++)
@@ -152,17 +170,14 @@ function cleanNeighboor(cellSrc, cellDst, direction){
 
 // CAN ONLY DRAWN CELL WITH PICKED PATERNE
 function drawCell(cell, screenObject){
-
   let i=0;
   let j=0;
   let x = cell.x;
   let y = cell.y;
   // x *= 3;
   // y *= 3;
-
   let xRatio = width/screenObject.cellX;
   let yRatio = height/screenObject.cellY;
-
   cell.paterneList.list.forEach(e => {
     if(e == 1){
       fill("white")
