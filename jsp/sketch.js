@@ -31,8 +31,8 @@ let posX = 50;
 let minusY = -50;
 let posY = 50;
 
-let raduis = 35.35;
-let nbrOfPoint = 10;
+let raduis = 35;
+let nbrOfPoint = 20;
 
 let pointList = []
 
@@ -73,19 +73,19 @@ function draw() {
   for(let i=0; i<nbrOfPoint ; i++){
     let xPos = Math.cos( i * rate * (Math.PI/180) );
     let yPos = Math.sin( i * rate * (Math.PI/180));
-    let tempPoint = new Point(xPos*raduis, yPos*raduis, tempColor,Math.random()*50);
+    let tempPoint = new Point(xPos*raduis, yPos*raduis, "red",Math.random()*50);
     pointList.push(tempPoint);
   }
 
   pointList.forEach(e => drawLine(e))
-  // drawLine(new Point(25,25,tempColor,Math.random()*50));
-  // drawLine(new Point(-25,25,tempColor,Math.random()*50));
-  // drawLine(new Point(25,-25,tempColor,Math.random()*50));
-  // drawLine(new Point(-25,-25,tempColor,Math.random()*50));
-  // drawLine(new Point(0,-35.35,tempColor,Math.random()*50));
-  // drawLine(new Point(0,35.35,tempColor,Math.random()*50));
-  // drawLine(new Point(35.35,0,tempColor,Math.random()*50));
-  // drawLine(new Point(-35.35,0,tempColor,Math.random()*50));
+  // tempPoint = new Point(23,23,"red",10)
+  // tempPoint2 = new Point(-23,23,"red",10)
+  // tempPoint3 = new Point(23,-23,"red",10)
+  // tempPoint4 = new Point(-23,-23,"red",10)
+  // drawLine(tempPoint);
+  // drawLine(tempPoint2);
+  // drawLine(tempPoint3);
+  // drawLine(tempPoint4);
 }
 
 
