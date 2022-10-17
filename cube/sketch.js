@@ -417,6 +417,7 @@ let HEIGHT = 900;
 
 let d = 2;
 let fov = 360;
+// let fov = 100;
 
 let fillColor;
 let newColor;
@@ -425,6 +426,7 @@ let shiftamt = 0.01;
 
 let myCube = new Cube(new Vect(0, 0, 10), 5, "orange", 4,false);
 let mySphere = new Sphere(new Vect(0, 0, 1), 0.9998, 50, "red",2.5);
+// let mySphere = new Sphere(new Vect(0, 2, 10), 2, 20, "red",2.5);
 let myCylinder = new Cylinder(new Vect(0,0,10), 7, 20, 7, 20, "red",3);
 let myCone = new Cone(new Vect(0,0,11), 7, 40, 7, 20,"green",3);
 
