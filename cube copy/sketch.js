@@ -412,11 +412,11 @@ class Cone extends Item {
   }
 }
 
-let WIDTH = 900;
-let HEIGHT = 900;
+let WIDTH = 3600;
+let HEIGHT = 3600;
 
 let d = 2;
-let fov = 80;
+let fov = 40;
 // let fov = 100;
 
 let fillColor;
@@ -424,11 +424,11 @@ let newColor;
 let shiftamt = 0.01;
 
 
-let myCube = new Cube(new Vect(0, 0, 10), 5, "orange", 4,false);
-let mySphere = new Sphere(new Vect(0, 0, 4), 0.9998, 20, "red",2.5);
+
+// let mySphere = new Sphere(new Vect(0, 0, 1), 0.9998, 50, "red",2.5);
 // let mySphere = new Sphere(new Vect(0, 2, 10), 2, 20, "red",2.5);
-let myCylinder = new Cylinder(new Vect(0,0,10), 7, 20, 7, 20, "red",3);
-let myCone = new Cone(new Vect(0,0,11), 7, 40, 7, 20,"green",3);
+// let myCylinder = new Cylinder(new Vect(0,0,10), 7, 20, 7, 20, "red",3);
+// let myCone = new Cone(new Vect(0,0,11), 7, 40, 7, 20,"green",3);
 
 let p5Canvas;
 
@@ -455,11 +455,54 @@ function setup() {
 
 tempDuration = moment();
 
+let pX = (x,s) => x+s;
+let nX = (x,s) => x-s;
+
+let count = 40;
+let spacing = 3.5;
+let sDecrease = 2;
+let decrease = 0.15
+
+
+let temp = {posX:0, posY:0, posZ:20, r:1,s:spacing}
+
+let cubeL = [new Cube(new Vect(temp.posX,temp.posY,temp.posZ),temp.r,"red",5,false)];
+let ToDraw = [];
+ToDraw.push(temp);
+
 function draw() {
   const startDate = moment();
 
   // Reset the screen
   background(25);
+
+  cubeL.forEach(e => {
+    e.draw();
+    if(count<0)
+    e.rotateItem(new Vect(Math.random(1)/50,Math.random(1)/50,Math.random(1)/50),new Vect(0,0,10))
+    // e.rotateItem(new Vect(0.005,0.005,0.0005),new Vect(0,0,10))
+  });
+
+  let tempL = []
+  if(count>=0){
+    ToDraw.forEach(e =>{
+      let a = {posX:pX(e.posX,e.s), posY:0, posZ:e.posZ, r:e.r-decrease,s:e.s-sDecrease};
+      let b = {posX:nX(e.posX,e.s), posY:0, posZ:e.posZ, r:e.r-decrease,s:e.s-sDecrease};
+      console.log(a)
+      cubeL.push(new Cube(new Vect(a.posX,a.posY,a.posZ),a.r,"red",5,false));
+      cubeL.push(new Cube(new Vect(b.posX,b.posY,b.posZ),b.r,"blue",5,false));
+      tempL.push(a);
+      tempL.push(b);
+      count --;
+    });
+  }
+
+  ToDraw = tempL;
+
+  // myCube.draw();
+  // myCylinder.draw();
+  // mySphere.draw();
+  // myCone.draw();
 
   // myCube.translateItem(new Vect(0.001,0.001,0.001), myCube.center);
   // mySphere.translateItem(new Vect(0.001,0.001,0.001), mySphere.center);
@@ -474,14 +517,10 @@ function draw() {
 
 
   // myCube.rotateItem( new Vect(0.005, 0.005, 0.005), myCube.center );
-  mySphere.rotateItem( new Vect(0.006, 0.006, 0.00), mySphere.center );
+  // mySphere.rotateItem( new Vect(0.006, 0.006, 0.00), mySphere.center );
   // myCylinder.rotateItem( new Vect(-0.005, -0.005, -0.005), myCylinder.center );
   // myCone.rotateItem( new Vect(0.005, 0.005, 0.005), myCone.center );
 
-  // myCube.draw();
-  // myCylinder.draw();
-  // mySphere.draw();
-  myCone.draw();
   
   tempColor = lerpColor(fillColor, newColor, amt);
   amt += shiftamt;
@@ -490,7 +529,7 @@ function draw() {
     fillColor = newColor;
     newColor = color(random(255), random(255), random(255));
   }
-  mySphere.color = tempColor;
+  // mySphere.color = tempColor;
 
   elapsedDuration = moment.duration(moment().diff(startDate));
   // console.log(elapsedDuration.asMilliseconds());
