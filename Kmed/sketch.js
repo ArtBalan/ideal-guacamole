@@ -1,4 +1,4 @@
-let nbr_Point = 100*130;
+let nbr_Point = 1*130;
 let nbr_Node = 20;
 
 

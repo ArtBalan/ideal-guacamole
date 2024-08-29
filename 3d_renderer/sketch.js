@@ -79,6 +79,8 @@ let item = new Item(tempVect, 1);
 
 let tempCube = new Cube(tempVect, 1, item);
 
+item = tempCube;
+
 item.rotateItem(new Vect(90*(Math.PI/180),0,0), item.center, true);
 
 function draw() {
